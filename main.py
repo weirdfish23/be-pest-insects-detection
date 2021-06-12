@@ -8,6 +8,7 @@ from PIL import Image
 import numpy as np
 from models_detection import make_detection, save_on_s3
 
+
 app = FastAPI()
 
 origins = ["*"]
@@ -19,7 +20,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
+model = torch.hub.load('ultralytics/yolov5', 'custom', path='best.pt')
 
 @app.get("/")
 def read_root():

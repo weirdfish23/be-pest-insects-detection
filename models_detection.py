@@ -50,15 +50,14 @@ def add_labels(pil_img, df_results, colors):
         plot_one_box(x, img1, label='{} {conf:.2f}'.format(class_name, conf=confidence), color=colors(int(class_n), True))
     return Image.fromarray(np.uint8(img1)).convert('RGB')
 
-def make_detection(pil_img):
-    model = torch.hub.load('ultralytics/yolov5', 'custom', path='best.pt')
+def make_detection(model, pil_img):
     results = model(pil_img)
     df_results = results.pandas().xyxy[0]
     img2 = add_labels(pil_img, df_results, colors)
     return img2, df_results
 
 def save_on_s3(result_img, result_df, filename):
-    url_result_img, url_result_df = "", ""
+    url_result_img, url_result_csv = "", ""
 
     s3 = boto3.resource('s3')
     bucket = s3.Bucket('results-pest-detection')
