@@ -33,7 +33,7 @@ def pest_detection(file: UploadFile = File(...)):
     img = Image.open(io.BytesIO(file.file.read()))
     print('Filename::', filename)
     print('Img. size::', img.size)
-    result_img, result_df = make_detection(img)
+    result_img, result_df = make_detection(model, img)
     print('Result Img. size::', result_img.size)
     print('Result DF. len::', len(result_df))
     url_result_img, url_result_csv = save_on_s3(result_img, result_df, filename)
