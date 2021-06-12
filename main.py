@@ -1,5 +1,6 @@
 from fastapi import FastAPI, File, UploadFile
 from starlette.responses import StreamingResponse
+from fastapi.middleware.cors import CORSMiddleware
 import io
 import torch
 import cv2
@@ -8,6 +9,16 @@ import numpy as np
 from models_detection import make_detection, save_on_s3
 
 app = FastAPI()
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/")
